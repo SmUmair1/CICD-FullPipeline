@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    environment {
+        dockerImage = ''
+        registry = 'daudidrees/myimage'
+        // registryCredential = 'dockerhub-id'
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+            }
+        }
+
+        stage('Docker Push Image') {
+            steps {
+                script {
+                    docker.withRegistry('', 'dockerhub-id') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy(
+                        kubeconfigId: 'kubernetes',
+                        configs: 'deployment.yml',
+                        enableConfigSubstitution: true
+                    )
+                }
+            }
+        }
+    }
+}
+
