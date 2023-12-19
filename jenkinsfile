@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    kubernetesDeploy(configs: ["deployment.yaml", "jenk-service.yaml"])
+                    kubernetesDeploy(configMap: ["deployment.yaml", "jenk-service.yaml"])
                 }
             }
         }
