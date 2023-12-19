@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         dockerImage = ''
-        registry = 'daudidrees/myimage'
+        registry = 'umair1999/myimage'
         // registryCredential = 'dockerhub-id'
     }
 
@@ -19,7 +19,7 @@ pipeline {
         stage('Docker Push Image') {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub-id') {
+                    docker.withRegistry('', 'dockerhub1') {
                         dockerImage.push()
                     }
                 }
