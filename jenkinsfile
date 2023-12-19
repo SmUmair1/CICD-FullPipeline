@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     kubernetesDeploy(
-                        kubeconfigId: 'kubernetes',
+                        kubeconfigId: 'k8s-cluster',
                         configs: 'deployment.yml',
                         enableConfigSubstitution: true
                     )
