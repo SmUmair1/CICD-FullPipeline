@@ -29,7 +29,13 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    kubernetesDeploy(configMap: ["deployment.yaml", "jenk-service.yaml"])
+                    try {
+                        kubernetesDeploy(configMap: ["deployment.yaml", "jenk-service.yaml"])
+                    } catch (Exception e) {
+                        echo "Error: ${e.getMessage()}"
+                        echo "Stack trace: ${e.getStackTrace().join('\n')}"
+                        error("Kubernetes deployment failed.")
+                    }
                 }
             }
         }
